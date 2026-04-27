@@ -71,7 +71,9 @@ import { provideAppMode, AppMode } from './composables/useAppMode'
 
 const { locale, t } = useI18n()
 const { mode: themeMode, isDark, setMode } = useTheme()
-const appModeContext = provideAppMode('advanced')
+const envDefaultMode = import.meta.env.VITE_DEFAULT_APP_MODE
+const defaultAppMode: AppMode = envDefaultMode === 'basic' ? 'basic' : 'advanced'
+const appModeContext = provideAppMode(defaultAppMode)
 const modeSelection = computed<AppMode>({
   get: () => appModeContext.mode.value,
   set: (value) => appModeContext.setMode(value)

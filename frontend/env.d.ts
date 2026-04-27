@@ -4,6 +4,7 @@ interface ImportMetaEnv {
   readonly VITE_API_BASE_URL?: string
   readonly VITE_DEFAULT_LOCALE?: string
   readonly VITE_DEFAULT_THEME?: string
+  readonly VITE_DEFAULT_APP_MODE?: 'advanced' | 'basic'
   readonly VITE_BASE_PATH?: string
 }
 
