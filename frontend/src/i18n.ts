@@ -113,7 +113,15 @@ const messages = {
       download: 'Download Result',
       downloading: 'Downloading…',
       deleteFailure: 'Failed to delete file',
-      downloadFailure: 'Download failed'
+      downloadFailure: 'Download failed',
+      placeholder: 'Transcript will appear here after processing.'
+    },
+    workflow: {
+      upload: 'Upload',
+      transcribe: 'Transcribe',
+      download: 'Download',
+      azureDefault: 'Azure defaults',
+      plainText: 'Plain text output'
     },
     status: {
       waiting: 'Waiting for file…',
@@ -252,7 +260,15 @@ const messages = {
       download: '下载结果',
       downloading: '正在下载…',
       deleteFailure: '删除文件失败',
-      downloadFailure: '下载失败'
+      downloadFailure: '下载失败',
+      placeholder: '转录完成后会显示在这里。'
+    },
+    workflow: {
+      upload: '上传',
+      transcribe: '转录',
+      download: '下载',
+      azureDefault: 'Azure 默认配置',
+      plainText: '纯文本输出'
     },
     status: {
       waiting: '等待文件…',
@@ -391,7 +407,15 @@ const messages = {
       download: '下載結果',
       downloading: '下載中…',
       deleteFailure: '刪除檔案失敗',
-      downloadFailure: '下載失敗'
+      downloadFailure: '下載失敗',
+      placeholder: '轉錄完成後會顯示在這裡。'
+    },
+    workflow: {
+      upload: '上載',
+      transcribe: '轉錄',
+      download: '下載',
+      azureDefault: 'Azure 預設設定',
+      plainText: '純文字輸出'
     },
     status: {
       waiting: '等待檔案…',

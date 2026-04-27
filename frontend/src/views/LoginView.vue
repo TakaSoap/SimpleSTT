@@ -79,17 +79,28 @@ function handleSubmit() {
 .login-wrapper {
   display: grid;
   place-items: center;
-  height: 100vh;
-  padding: 24px;
-  background: radial-gradient(circle at 20% 20%, #f0f5ff, transparent 60%),
+  min-height: calc(100vh - 180px);
+  padding: 48px 24px;
+  background: var(
+    --sst-login-bg,
+    radial-gradient(circle at 20% 20%, #f0f5ff, transparent 60%),
     radial-gradient(circle at 80% 0%, #f9f5ff, transparent 55%),
-    linear-gradient(135deg, #f7f9fc 0%, #eef3fb 100%);
+    linear-gradient(135deg, #f7f9fc 0%, #eef3fb 100%)
+  );
+  border-radius: 12px;
 }
 
 .login-card {
   width: min(420px, 100%);
-  box-shadow: 0 20px 40px -24px rgba(15, 23, 42, 0.25);
+  box-shadow: var(--sst-login-card-shadow, 0 20px 40px -24px rgba(15, 23, 42, 0.25));
   border-radius: 16px;
+}
+
+:global(body.theme-dark) {
+  --sst-login-bg: radial-gradient(circle at 20% 20%, rgba(20, 184, 166, 0.14), transparent 58%),
+    radial-gradient(circle at 80% 0%, rgba(59, 130, 246, 0.12), transparent 56%),
+    linear-gradient(135deg, #111827 0%, #0f172a 100%);
+  --sst-login-card-shadow: 0 24px 48px -30px rgba(0, 0, 0, 0.85);
 }
 
 .actions {

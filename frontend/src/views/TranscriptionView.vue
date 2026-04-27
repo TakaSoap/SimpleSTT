@@ -98,6 +98,20 @@
     </div>
 
     <div class="content">
+      <div class="workflow-strip">
+        <n-steps :current="workflowStep" :status="workflowStepStatus" size="small">
+          <n-step :title="t('workflow.upload')" />
+          <n-step :title="t('workflow.transcribe')" />
+          <n-step :title="t('workflow.download')" />
+        </n-steps>
+        <n-alert v-if="isBasicMode" type="info" class="mode-summary" :show-icon="false">
+          <n-space align="center" size="small" wrap>
+            <n-tag type="info" round>{{ t('workflow.azureDefault') }}</n-tag>
+            <span>{{ t('workflow.plainText') }}</span>
+          </n-space>
+        </n-alert>
+      </div>
+
       <n-card :title="t('upload.title')" size="large" class="card">
         <n-upload v-model:file-list="uploadList" :max="1" :default-upload="false" accept="audio/*,video/*"
           @change="handleUploadChange" @update:file-list="handleFileListUpdate" @remove="handleRemove">
@@ -137,6 +151,7 @@
             :value="resultText"
             readonly
             :rows="18"
+            :placeholder="t('transcription.placeholder')"
             :input-style="{ maxHeight: '480px', overflowY: 'auto', whiteSpace: 'pre-wrap' }"
           />
           <div class="actions">
@@ -252,6 +267,14 @@ const statusDetails = ref<string | null>(null)
 const reanalyzing = ref(false)
 
 const showUploader = computed(() => uploadList.value.length === 0)
+
+const workflowStep = computed(() => {
+  if (resultDownloadUrl.value) return 3
+  if (fileMeta.value || transcribing.value) return 2
+  return 1
+})
+
+const workflowStepStatus = computed(() => (statusType.value === 'error' ? 'error' : 'process'))
 
 const isValidatingKey = computed(() => keyStatus.value === 'loading')
 const keyStatusTagType = computed(() => {
@@ -801,6 +824,8 @@ watch(selectedModel, async () => {
 
 .layout.basic-mode {
   grid-template-columns: 1fr;
+  max-width: 1080px;
+  margin: 0 auto;
 }
 
 .sidebar {
@@ -815,6 +840,11 @@ watch(selectedModel, async () => {
   gap: 24px;
 }
 
+.workflow-strip {
+  display: grid;
+  gap: 12px;
+}
+
 .card {
   box-shadow: 0 12px 32px -20px rgba(15, 23, 42, 0.35);
   border-radius: 16px;
@@ -825,12 +855,29 @@ watch(selectedModel, async () => {
   place-items: center;
   padding: 24px;
   text-align: center;
-  color: #475569;
+  color: var(--sst-upload-text, #475569);
+}
+
+.upload-inner p {
+  color: inherit;
+}
+
+.upload-inner :deep(.n-icon) {
+  color: inherit;
 }
 
 .sub {
   font-size: 12px;
-  color: #94a3b8;
+  color: var(--sst-upload-subtext, #94a3b8);
+}
+
+:global(body.theme-dark) {
+  --sst-upload-text: rgba(226, 232, 240, 0.88);
+  --sst-upload-subtext: rgba(203, 213, 225, 0.72);
+}
+
+.mode-summary {
+  border-radius: 8px;
 }
 
 .info {
@@ -851,6 +898,7 @@ watch(selectedModel, async () => {
 .actions {
   display: flex;
   gap: 16px;
+  flex-wrap: wrap;
 }
 
 .hint {
