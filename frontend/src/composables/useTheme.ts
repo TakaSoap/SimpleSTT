@@ -7,11 +7,15 @@ const STORAGE_KEY = 'audio-app-theme'
 const preferredDark = usePreferredDark()
 const envDefault = (import.meta.env.VITE_DEFAULT_THEME as string | undefined)?.toLowerCase() as ThemeMode | undefined
 
+function getStorage(): Storage | null {
+  if (typeof window === 'undefined') return null
+  const storage = window.localStorage
+  return storage && typeof storage.getItem === 'function' ? storage : null
+}
+
 function resolveInitialMode(): ThemeMode {
-  if (typeof window === 'undefined') {
-    return envDefault && ['light', 'dark', 'system'].includes(envDefault) ? envDefault : 'system'
-  }
-  const stored = window.localStorage.getItem(STORAGE_KEY) as ThemeMode | null
+  const storage = getStorage()
+  const stored = storage?.getItem(STORAGE_KEY) as ThemeMode | null
   if (stored && ['light', 'dark', 'system'].includes(stored)) {
     return stored
   }
@@ -26,9 +30,7 @@ const mode = ref<ThemeMode>(resolveInitialMode())
 watch(
   mode,
   (value) => {
-    if (typeof window !== 'undefined') {
-      window.localStorage.setItem(STORAGE_KEY, value)
-    }
+    getStorage()?.setItem(STORAGE_KEY, value)
   },
   { immediate: true }
 )

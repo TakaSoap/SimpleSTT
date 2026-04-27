@@ -132,7 +132,13 @@
       <n-card :title="t('transcription.title')" size="large" class="card">
         <n-space vertical size="large">
           <n-alert :type="statusType" :show-icon="false">{{ statusMessage }}</n-alert>
-          <n-input type="textarea" :value="resultText" readonly :autosize="{ minRows: 12, maxRows: 20 }" />
+          <n-input
+            type="textarea"
+            :value="resultText"
+            readonly
+            :rows="18"
+            :input-style="{ maxHeight: '480px', overflowY: 'auto', whiteSpace: 'pre-wrap' }"
+          />
           <div class="actions">
             <n-button type="primary" size="large" :loading="transcribing" :disabled="!canTranscribe"
               @click="handleTranscribe">

@@ -1,6 +1,6 @@
 # Audio Transcription Web Application
 
-Modern web experience for the legacy Tkinter transcription tool, rebuilt with Vue 3 + Naive UI on the frontend and FastAPI on the backend. Provides OpenAI & Azure OpenAI transcription workflows, file analysis, cost estimation, real-time streaming, and secure access via HTTP Basic authentication.
+A modern web transcription tool, built with Vue 3 + Naive UI on the frontend and FastAPI on the backend. Provides OpenAI & Azure OpenAI transcription workflows, file analysis, cost estimation, real-time streaming, and secure access via HTTP Basic authentication.
 
 ## Features
 - Responsive Vue interface with Naive UI components and drag-and-drop uploads.

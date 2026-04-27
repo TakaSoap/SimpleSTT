@@ -12,25 +12,35 @@ const state = reactive({
   token: ''
 })
 
-const persisted = window.localStorage.getItem(STORAGE_KEY)
+function getStorage(): Storage | null {
+  if (typeof window === 'undefined') return null
+  const storage = window.localStorage
+  return storage && typeof storage.getItem === 'function' ? storage : null
+}
+
+const storage = getStorage()
+const persisted = storage?.getItem(STORAGE_KEY)
 if (persisted) {
   try {
     const parsed = JSON.parse(persisted) as StoredCredentials
     state.username = parsed.username
     state.token = parsed.token
   } catch (error) {
-    window.localStorage.removeItem(STORAGE_KEY)
+    storage?.removeItem(STORAGE_KEY)
   }
 }
 
 function persist(): void {
+  const storage = getStorage()
+  if (!storage) return
+
   if (state.token) {
-    window.localStorage.setItem(
+    storage.setItem(
       STORAGE_KEY,
       JSON.stringify({ username: state.username, token: state.token })
     )
   } else {
-    window.localStorage.removeItem(STORAGE_KEY)
+    storage.removeItem(STORAGE_KEY)
   }
 }
 

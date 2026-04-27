@@ -27,7 +27,7 @@ async def create_transcription(_: CredentialsDep, payload: TranscriptionRequest)
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(exc)) from exc
 
     download_url = f"/api/transcriptions/{output.transcript.id}/download"
-    preview = output.display_text[:1000]
+    preview = output.display_text
     return TranscriptionResponse(
         result=TranscriptionResult(
             transcript_id=output.transcript.id,

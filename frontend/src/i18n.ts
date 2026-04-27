@@ -125,6 +125,12 @@ const messages = {
       updatedForModel: 'Cost updated for new model',
       streamUnavailable: 'Streaming only supports text format'
     },
+    errors: {
+      requestFailed: 'Request failed with status {status}',
+      serverUnavailable: 'Service is temporarily unavailable. Please try again later.',
+      network: 'Unable to reach the service. Check your network or try again later.',
+      authenticationRequired: 'Authentication required'
+    },
     validation: {
       required: 'This field is required',
       apiKey: 'Enter a valid API key',
@@ -258,6 +264,12 @@ const messages = {
       updatedForModel: '已根据新模型更新费用估算',
       streamUnavailable: '流式仅支持文本格式'
     },
+    errors: {
+      requestFailed: '请求失败，状态码 {status}',
+      serverUnavailable: '服务暂时不可用，请稍后再试。',
+      network: '无法连接到服务，请检查网络或稍后再试。',
+      authenticationRequired: '请重新登录'
+    },
     validation: {
       required: '请输入内容',
       apiKey: '请输入有效的 API Key',
@@ -390,6 +402,12 @@ const messages = {
       error: '轉錄失敗',
       updatedForModel: '已依新模型更新費用估算',
       streamUnavailable: '串流僅支援文字格式'
+    },
+    errors: {
+      requestFailed: '請求失敗，狀態碼 {status}',
+      serverUnavailable: '服務暫時不可用，請稍後再試。',
+      network: '無法連線至服務，請檢查網絡或稍後再試。',
+      authenticationRequired: '請重新登入'
     },
     validation: {
       required: '請輸入內容',
