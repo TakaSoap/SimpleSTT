@@ -21,6 +21,7 @@ A modern web transcription tool, built with Vue 3 + Naive UI on the frontend and
 - **Communication**: REST JSON endpoints plus Server-Sent Events for streaming transcripts. Shared DTOs documented in `backend/app/models/api.py` and mirrored in `frontend/src/types`.
 - **Storage**: Uploaded files saved in a temporary storage directory with automatic cleanup via background tasks; transcripts written to disk and exposed via download endpoint.
 - **Security**: HTTP Basic authentication enforced globally. Credentials configured via environment variables.
+- **Long Audio**: Azure text transcriptions can be split with `ffmpeg` before submission to avoid upstream request-size failures.
 
 Refer to [AGENT.md](AGENT.md) for the full engineering plan and internal design notes.
 
@@ -67,10 +68,11 @@ pnpm test --run
 ```
 
 ## Deployment Notes
-- Serve the built frontend via FastAPI's static files middleware for same-origin auth simplicity (`npm run build` → copy `dist` into backend `static/`).
+- Production on `lrs-dev` uses `systemd + Python venv + nginx`: nginx serves `frontend/dist` under `/sst/` and proxies `/sst/api/` to FastAPI on `127.0.0.1:17780`.
 - Use HTTPS in production; Basic auth transmits credentials per request.
 - Configure environment variables for credentials, storage paths, and provider defaults. Rotate Basic auth passwords regularly.
-  - Backend defaults such as provider, Azure endpoint, and currency conversion ratios are configurable via `.env`.
+  - Backend defaults such as provider, Azure endpoint, currency conversion ratios, `FFMPEG_BINARY`, and `TRANSCRIPTION_CHUNK_DURATION_SECONDS` are configurable via `.env`.
+  - If `FFMPEG_BINARY` is omitted, the backend looks for `ffmpeg` on `PATH`, then under `shared/tools/ffmpeg-*-static/ffmpeg` in the release tree.
 
 ## Roadmap & Enhancements
 1. Persist user preferences (prompt, language) per account.

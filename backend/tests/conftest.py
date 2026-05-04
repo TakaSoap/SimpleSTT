@@ -3,6 +3,7 @@ import base64
 from typing import AsyncIterator
 
 import pytest
+import pytest_asyncio
 from fastapi import FastAPI
 from httpx import AsyncClient, ASGITransport
 
@@ -93,7 +94,7 @@ def auth_headers() -> dict[str, str]:
     return {"Authorization": f"Basic {token}"}
 
 
-@pytest.fixture
+@pytest_asyncio.fixture
 async def client(app_instance: FastAPI) -> AsyncIterator[AsyncClient]:
     transport = ASGITransport(app=app_instance)
     async with AsyncClient(transport=transport, base_url="http://test") as async_client:

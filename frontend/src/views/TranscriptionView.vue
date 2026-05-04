@@ -293,6 +293,12 @@ const canStream = computed(() => {
 })
 
 const isStreaming = computed(() => streamEnabled.value && canStream.value)
+const shouldUseStreaming = computed(() => {
+  if (provider.value === 'azure') {
+    return (isBasicMode.value ? 'text' : selectedFormat.value) === 'text'
+  }
+  return isStreaming.value
+})
 
 const defaultKeyAvailable = computed(() => hasDefaultKeys.value[provider.value])
 const isUsingDefaultKey = computed(() => !providerForm.apiKey && defaultKeyAvailable.value)
@@ -636,7 +642,7 @@ async function handleTranscribe() {
     format: isBasicMode.value ? 'text' : selectedFormat.value,
     language: isBasicMode.value ? providerDefaults.value?.language ?? null : selectedLanguage.value || null,
     prompt: isBasicMode.value ? null : prompt.value || null,
-    stream: isBasicMode.value ? false : isStreaming.value,
+    stream: shouldUseStreaming.value,
     provider: providerConfig
   }
 
@@ -645,7 +651,7 @@ async function handleTranscribe() {
   setStatus('transcribing', 'info')
 
   try {
-    if (isStreaming.value) {
+    if (shouldUseStreaming.value) {
       for await (const event of streamTranscription(payload)) {
         if (event.type === 'chunk') {
           resultText.value += event.data

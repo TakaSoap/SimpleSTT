@@ -18,6 +18,8 @@ class Settings(BaseSettings):
     # Storage settings
     storage_dir: Path = Path("./storage")
     storage_ttl_seconds: int = 6 * 60 * 60  # 6 hours
+    ffmpeg_binary: Optional[Path] = None
+    transcription_chunk_duration_seconds: int = 20 * 60
 
     # Provider defaults exposed to the frontend
     default_provider: Literal["openai", "azure"] = "openai"
@@ -50,6 +52,22 @@ class Settings(BaseSettings):
             return value
         if isinstance(value, str) and value.strip() == "":
             return None
+        return value
+
+    @field_validator("ffmpeg_binary", mode="before")
+    @classmethod
+    def _empty_path_to_none(cls, value: Optional[str]):
+        if value is None:
+            return value
+        if isinstance(value, str) and value.strip() == "":
+            return None
+        return value
+
+    @field_validator("transcription_chunk_duration_seconds")
+    @classmethod
+    def _positive_chunk_duration(cls, value: int):
+        if value <= 0:
+            raise ValueError("transcription_chunk_duration_seconds must be greater than 0")
         return value
 
 
